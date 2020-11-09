@@ -2,6 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const session = require('express-session')
 const massive = require('massive')
+const authCtrl = require('../server/authController')
 
 
 const app = express()
@@ -16,6 +17,12 @@ app.use(session({
   saveUninitialized: true,
   cookie: { maxAge: 1000 * 60 * 60 * 24 * 365 }
 }))
+
+
+app.post('/api/auth/register', authCtrl.registerUser)
+app.post('/api/auth/login', authCtrl.loginUser)
+app.post('/api/auth/logout', authCtrl.logoutUser)
+app.get('/api/auth/user', authCtrl.getUser)
 
 
 massive({
