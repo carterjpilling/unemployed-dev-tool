@@ -15,8 +15,7 @@ id SERIAL PRIMARY KEY,
 clocked_user_id INT REFERENCES dev_users (id),
 clock_option_id INT REFERENCES clock_options (option_id ),
 start TIMESTAMP,
-clockedin BOOLEAN,
 stop TIMESTAMP,
-clockedout BOOLEAN,
-clocked_time INT
+clocked_time INTERVAL,
+date DATE
 );

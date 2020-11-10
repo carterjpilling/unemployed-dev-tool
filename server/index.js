@@ -28,7 +28,8 @@ app.get('/api/auth/user', authCtrl.getUser)
 //Clock Controller
 app.post('/api/user/clockin', timeCtrl.clockIn)
 app.put('/api/user/clockout', timeCtrl.clockOut)
-app.get('/api/user/times', timeCtrl.getTimes)
+app.get('/api/user/clock/today', timeCtrl.getTodaysTimes)
+app.get('/api/user/clock/alltimes', timeCtrl.getAllTimes)
 
 
 massive({
