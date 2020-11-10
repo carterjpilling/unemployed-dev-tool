@@ -3,6 +3,7 @@ const express = require('express')
 const session = require('express-session')
 const massive = require('massive')
 const authCtrl = require('../server/authController')
+const timeCtrl = require('../server/timeClockController')
 
 
 const app = express()
@@ -18,11 +19,16 @@ app.use(session({
   cookie: { maxAge: 1000 * 60 * 60 * 24 * 365 }
 }))
 
-
+//Auth Controller
 app.post('/api/auth/register', authCtrl.registerUser)
 app.post('/api/auth/login', authCtrl.loginUser)
 app.post('/api/auth/logout', authCtrl.logoutUser)
 app.get('/api/auth/user', authCtrl.getUser)
+
+//Clock Controller
+app.post('/api/user/clockin', timeCtrl.clockIn)
+app.put('/api/user/clockout', timeCtrl.clockOut)
+app.get('/api/user/times', timeCtrl.getTimes)
 
 
 massive({
