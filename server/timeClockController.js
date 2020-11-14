@@ -2,9 +2,9 @@ module.exports = {
   clockIn: async (req, res) => {
     const db = req.app.get('db')
     const { id } = req.session.user
-    const { option_id } = req.body
+    const { option_id, date } = req.body
 
-    await db.clockin([id, option_id])
+    await db.clockin([id, option_id, date])
 
     res.sendStatus(200)
   },

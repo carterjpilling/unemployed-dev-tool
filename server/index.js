@@ -4,6 +4,7 @@ const session = require('express-session')
 const massive = require('massive')
 const authCtrl = require('../server/authController')
 const timeCtrl = require('../server/timeClockController')
+const jobCtrl = require('../server/jobsController')
 
 
 const app = express()
@@ -30,6 +31,10 @@ app.post('/api/user/clockin', timeCtrl.clockIn)
 app.put('/api/user/clockout', timeCtrl.clockOut)
 app.get('/api/user/clock/today', timeCtrl.getTodaysTimes)
 app.get('/api/user/clock/alltimes', timeCtrl.getAllTimes)
+
+//Job Controller
+app.post('/api/user/jobs', jobCtrl.saveJobs)
+app.get('/api/users/jobs', jobCtrl.getJobs)
 
 
 massive({

@@ -19,3 +19,14 @@ stop TIMESTAMP,
 clocked_time INTERVAL,
 date DATE
 );
+
+CREATE TABLE dev_dates(
+id SERIAL PRIMARY KEY,
+date TEXT);
+
+CREATE TABLE user_jobs(
+id SERIAL PRIMARY KEY,
+job TEXT,
+user_id INT REFERENCES dev_users (id),
+date INT REFERENCES dev_dates (id)
+);
