@@ -3,16 +3,34 @@ module.exports = {
     const db = req.app.get('db')
     const { id } = req.session.user
     const { option_id, date } = req.body
+    const [existingDate] = await db.check_date([date])
 
-    await db.clockin([id, option_id, date])
+    if (existingDate) {
+      await db.clockin([id, option_id, existingDate.id])
+    }
+
+    if (!existingDate) {
+      const [newDate] = await db.create_date([date])
+      await db.clockin([id, option_id, newDate.id])
+    }
 
     res.sendStatus(200)
   },
   clockOut: async (req, res) => {
     const db = req.app.get('db')
     const { id } = req.session.user
-    const [punch_id] = await db.clockout([id])
-    await db.calculate_times([punch_id.id])
+    const { date } = req.body
+    const [existingDate] = await db.check_date([date])
+
+    if (existingDate) {
+      const [punch_id] = await db.clockout([id, existingDate.id])
+      await db.calculate_times([punch_id.id])
+    }
+
+    if (!existingDate) {
+      return res.status(404).send('No Clock-In Found')
+    }
+
     res.sendStatus(200)
   },
   getTodaysTimes: async (req, res) => {

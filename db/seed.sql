@@ -17,7 +17,7 @@ clock_option_id INT REFERENCES clock_options (option_id ),
 start TIMESTAMP,
 stop TIMESTAMP,
 clocked_time INTERVAL,
-date DATE
+date INT REFERENCES dev_dates (id)
 );
 
 CREATE TABLE dev_dates(
