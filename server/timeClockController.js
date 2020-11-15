@@ -36,18 +36,21 @@ module.exports = {
   getTodaysTimes: async (req, res) => {
     const db = req.app.get('db')
     const { id } = req.session.user
-    const times = await db.get_todays_punches([id])
+    const { date } = req.body
+    const [existingDate] = await db.check_date([date])
 
-    console.log(times)
-    res.sendStatus(200)
+    const times = await db.get_todays_punches([id, existingDate.id])
+
+    res.status(200).send(times)
   },
   getAllTimes: async (req, res) => {
     const db = req.app.get('db')
     const { id } = req.session.user
     const times = await db.get_times([id])
 
+    console.log(times)
     const sortedPunches = times.reduce((groups, punch) => {
-      const date = JSON.stringify(punch.start).split('T')[0];
+      const date = punch.date
       if (!groups[date]) {
         groups[date] = []
       }
