@@ -30,3 +30,10 @@ job TEXT,
 user_id INT REFERENCES dev_users (id),
 date INT REFERENCES dev_dates (id)
 );
+
+CREATE TABLE dev_goals(
+id SERIAL PRIMARY KEY,
+post_text TEXT,
+post_date_id INT REFERENCES dev_dates(id),
+post_user_id INT REFERENCES dev_users(id)
+);

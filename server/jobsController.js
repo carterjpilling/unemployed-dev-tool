@@ -29,6 +29,13 @@ module.exports = {
   editJob: async (req, res) => {
     //Need to write this when the front end is built. Not sure how I'll get the id but I'll need to use it. Will be similar to deleteJob. 
     //Additionally, maybe ArtGallery could provide some context to deleting. 
+
+    const db = req.app.get('db')
+    const { id, job } = req.body
+    await db.edit_job([id, job])
+
+    res.sendStatus(200)
+
   },
   deleteJob: async (req, res) => { },
 

@@ -5,6 +5,7 @@ const massive = require('massive')
 const authCtrl = require('../server/authController')
 const timeCtrl = require('../server/timeClockController')
 const jobCtrl = require('../server/jobsController')
+const goalCtrl = require('../server/goalController')
 
 
 const app = express()
@@ -35,6 +36,11 @@ app.get('/api/user/clock/alltimes', timeCtrl.getAllTimes)
 //Job Controller
 app.post('/api/user/jobs', jobCtrl.saveJobs)
 app.get('/api/users/jobs', jobCtrl.getJobs)
+
+//Goal Controller
+app.post('/api/user/goals/daily', goalCtrl.postDailyGoals)
+app.put('/api/user/goals/daily', goalCtrl.putDailyGoals)
+app.get('/api/user/goals/daily', goalCtrl.getDailyGoals)
 
 
 massive({
