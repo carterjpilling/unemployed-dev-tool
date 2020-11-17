@@ -31,11 +31,11 @@ export default function Cal() {
         onChange={changeDate}
       // formatLongDate={dateState}
       />
-      <Clock />
-      <Goals />
-      <Jobs />
-      <Notes />
-      <Time />
+      <Clock date={dateValue} />
+      <Goals date={dateValue} />
+      <Jobs date={dateValue} />
+      <Notes date={dateValue} />
+      <Time date={dateValue} />
 
       <p>Current selected Date is<b>{moment(dateState).format('MMMM Do YYYY')}</b></p>
       <button onClick={() => logger()}>LOG</button>
