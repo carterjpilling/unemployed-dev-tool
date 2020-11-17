@@ -1,7 +1,10 @@
 import React, { useState } from 'react'
 import axios from 'axios'
+import { connect } from 'react-redux'
+import { loginUser } from '../redux/authReducer'
 
-export default function LoginRegister() {
+
+function LoginRegister(props) {
 
   const [state, setState] = useState({
     name: '',
@@ -17,7 +20,11 @@ export default function LoginRegister() {
 
   function handleLogin() {
     const { email, password } = state
-    axios.post('/api/auth/login', { email, password })
+    axios
+      .post('/api/auth/login', { email, password })
+      .then((res) => {
+        props.loginUser(res.data)
+      })
   }
 
   function handleRegister() {
@@ -56,3 +63,6 @@ export default function LoginRegister() {
     </div>
   )
 }
+const mapStateToProps = state => state
+
+export default connect(mapStateToProps, { loginUser })(LoginRegister)
