@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { loginUser } from '../redux/authReducer'
@@ -11,6 +11,10 @@ function LoginRegister(props) {
     email: '',
     password: ''
   })
+
+  useEffect(() => {
+
+  }, [])
 
   function handleInput(e) {
     setState((prevState) => {
@@ -30,6 +34,7 @@ function LoginRegister(props) {
   function handleRegister() {
     const { name, email, password } = state
     axios.post('/api/auth/register', { name, email, password })
+      .then((res) => props.loginUser(res.data))
   }
 
   return (
