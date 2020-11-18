@@ -36,11 +36,12 @@ module.exports = {
   getTodaysTimes: async (req, res) => {
     const db = req.app.get('db')
     const { id } = req.session.user
-    const { date } = req.body
+    const { date } = req.params
     const [existingDate] = await db.check_date([date])
     if (!existingDate) {
-      res.status(404).send('No times for today.')
+      return res.status(404).send('No times for today.')
     }
+    console.log(existingDate)
     const times = await db.get_todays_punches([id, date])
 
     let codingArr = []
