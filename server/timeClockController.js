@@ -38,17 +38,77 @@ module.exports = {
     const { id } = req.session.user
     const { date } = req.body
     const [existingDate] = await db.check_date([date])
+    if (!existingDate) {
+      res.status(404).send('No times for today.')
+    }
+    const times = await db.get_todays_punches([id, date])
 
-    const times = await db.get_todays_punches([id, existingDate.id])
+    let codingArr = []
+    let jobHuntArr = []
+    let researchArr = []
+    let otherArr = []
+    let whiteboardArr = []
 
-    res.status(200).send(times)
+    times.forEach((element) => {
+
+      let hours = '00'
+      let minutes = '00'
+      let seconds = '00'
+      if (element.clocked_time.hours !== undefined) {
+        hours = element.clocked_time.hours
+      }
+
+      if (element.clocked_time.minutes !== undefined) {
+        minutes = element.clocked_time.minutes
+      }
+
+      if (element.clocked_time.seconds !== undefined) {
+        seconds = element.clocked_time.seconds
+      }
+
+      let obj = {
+        clock_option: element.clock_option_id,
+        time: `${hours}:${minutes}:${seconds}`,
+        date: element.date
+      }
+
+
+      const CODING = 1
+      const JOBHUNTING = 2
+      const RESEARCHING = 3
+      const OTHER = 4
+      const WHITEBOARD = 5
+
+      switch (element.clock_option_id) {
+        case CODING:
+          codingArr.push(obj)
+          break
+        case JOBHUNTING:
+          jobHuntArr.push(obj)
+          break
+        case RESEARCHING:
+          researchArr.push(obj)
+          break
+        case OTHER:
+          otherArr.push(obj)
+          break
+        case WHITEBOARD:
+          whiteboardArr.push(obj)
+          break
+        default:
+          return null
+      }
+    })
+    let timesSorted = []
+    timesSorted.push(codingArr, jobHuntArr, researchArr, otherArr, whiteboardArr)
+
+    res.status(200).send(timesSorted)
   },
   getAllTimes: async (req, res) => {
     const db = req.app.get('db')
     const { id } = req.session.user
     const times = await db.get_times([id])
 
-    console.log(times)
     const sortedPunches = times.reduce((groups, punch) => {
       const date = punch.date
       if (!groups[date]) {
