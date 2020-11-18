@@ -1,6 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 
-export default function Time() {
+export default function Time(props) {
+
+  useEffect(() => {
+    console.log('Time Change')
+  }, [props.date])
 
   return (
     <>

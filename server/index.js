@@ -32,6 +32,7 @@ app.post('/api/user/clockin', timeCtrl.clockIn)
 app.put('/api/user/clockout', timeCtrl.clockOut)
 app.get('/api/user/clock/today', timeCtrl.getTodaysTimes)
 app.get('/api/user/clock/alltimes', timeCtrl.getAllTimes)
+app.get('/api/clock/options', timeCtrl.getClockOptions)
 
 //Job Controller
 app.post('/api/user/jobs', jobCtrl.saveJobs)

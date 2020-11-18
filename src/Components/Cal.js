@@ -6,7 +6,7 @@ import Clock from './Clock'
 import Goals from './Goals'
 import Jobs from './Jobs'
 import Notes from './Notes'
-import Time from './Time'
+
 
 export default function Cal() {
   const [dateState, setDateState] = useState(new Date())
@@ -35,7 +35,7 @@ export default function Cal() {
       <Goals date={dateValue} />
       <Jobs date={dateValue} />
       <Notes date={dateValue} />
-      <Time date={dateValue} />
+
 
       <p>Current selected Date is<b>{moment(dateState).format('MMMM Do YYYY')}</b></p>
       <button onClick={() => logger()}>LOG</button>

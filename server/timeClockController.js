@@ -124,5 +124,10 @@ module.exports = {
       clockPunches.push(obj)
     })
     res.status(200).send(clockPunches)
+  },
+  getClockOptions: async (req, res) => {
+    const db = req.app.get('db')
+    const options = await db.get_clock_options([])
+    res.status(200).send(options)
   }
 }
