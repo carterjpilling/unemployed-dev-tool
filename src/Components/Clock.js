@@ -4,15 +4,18 @@ import Time from './Time'
 import axios from 'axios'
 
 export default function Clock(props) {
-  const [clockOption, setClockOption] = useState()
+  const [clockOption, setClockOption] = useState({
+    id: null,
+    name: 'Time Clock Options'
+  })
 
   useEffect(() => {
   }, [props.date])
 
   function clockin() {
     axios.post('/api/user/clockin', {
-      option_id: 1,
-      date: clockOption
+      option_id: clockOption.id,
+      date: props.date
     })
   }
 
@@ -28,19 +31,18 @@ export default function Clock(props) {
       <button onClick={() => clockout()}>Clock Out</button>
       <Dropdown
         drop='right'
-
       >
         <Dropdown.Toggle variant="success" id="dropdown-basic">
-          Time Clock Options
+          {clockOption.name}
         </Dropdown.Toggle>
 
         <Dropdown.Menu
         >
-          <Dropdown.Item onSelect={() => setClockOption(2)}>Job Hunting</Dropdown.Item>
-          <Dropdown.Item onSelect={() => setClockOption(1)}>Coding</Dropdown.Item>
-          <Dropdown.Item onSelect={() => setClockOption(3)}>Researching/Learning</Dropdown.Item>
-          <Dropdown.Item onSelect={() => setClockOption(5)}>WhiteBoarding / Interview Practice</Dropdown.Item>
-          <Dropdown.Item onSelect={() => setClockOption(4)}>Other</Dropdown.Item>
+          <Dropdown.Item onSelect={() => setClockOption({ id: 2, name: 'Job Hunting' })}>Job Hunting</Dropdown.Item>
+          <Dropdown.Item onSelect={() => setClockOption({ id: 1, name: 'Coding' })}>Coding</Dropdown.Item>
+          <Dropdown.Item onSelect={() => setClockOption({ id: 3, name: 'Researching/Learning' })}>Researching/Learning</Dropdown.Item>
+          <Dropdown.Item onSelect={() => setClockOption({ id: 5, name: 'WhiteBoarding / Interview Practice' })}>WhiteBoarding / Interview Practice</Dropdown.Item>
+          <Dropdown.Item onSelect={() => setClockOption({ id: 4, name: 'Other' })}>Other</Dropdown.Item>
         </Dropdown.Menu>
       </Dropdown>
       <p>Clock</p>
