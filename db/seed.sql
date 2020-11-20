@@ -26,9 +26,13 @@ date TEXT);
 
 CREATE TABLE user_jobs(
 id SERIAL PRIMARY KEY,
-job TEXT,
 user_id INT REFERENCES dev_users (id),
-date INT REFERENCES dev_dates (id)
+date INT REFERENCES dev_dates (id),
+job_status INT REFERNECES job_statuses(id),
+job_name TEXT,
+job_company TEXT,
+job_link TEXT,
+job_notes TEXT
 );
 
 CREATE TABLE dev_goals(
@@ -37,3 +41,7 @@ post_text TEXT,
 post_date_id INT REFERENCES dev_dates(id),
 post_user_id INT REFERENCES dev_users(id)
 );
+
+CREATE TABLE job_statuses(
+id SERIAL PRIMARY KEY,
+status TEXT);

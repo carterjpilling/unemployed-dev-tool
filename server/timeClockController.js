@@ -41,7 +41,6 @@ module.exports = {
     if (!existingDate) {
       return res.status(404).send('No times for today.')
     }
-    console.log(existingDate)
     const times = await db.get_todays_punches([id, date])
 
     let codingArr = []

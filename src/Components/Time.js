@@ -28,6 +28,6 @@ function Time(props) {
   )
 }
 
-const mapStateTopProps = state => state
+const mapStateToProps = state => state
 
-export default connect(mapStateTopProps)(Time)
+export default connect(mapStateToProps)(Time)

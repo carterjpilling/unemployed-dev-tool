@@ -20,7 +20,7 @@ module.exports = {
     const db = req.app.get('db')
     const { id } = req.session.user
     //Will need to change to date = req.query
-    const { date } = req.body
+    const { date } = req.params
 
     const jobs = await db.get_jobs([id, date])
 

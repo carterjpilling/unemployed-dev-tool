@@ -36,7 +36,7 @@ app.get('/api/clock/options', timeCtrl.getClockOptions)
 
 //Job Controller
 app.post('/api/user/jobs', jobCtrl.saveJobs)
-app.get('/api/users/jobs', jobCtrl.getJobs)
+app.get('/api/users/jobs/:date', jobCtrl.getJobs)
 
 //Goal Controller
 app.post('/api/user/goals/daily', goalCtrl.postDailyGoals)
