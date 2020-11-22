@@ -18,6 +18,19 @@ function Jobs(props) {
       setJobs(res.data)
     })
   }
+
+  function saveJob() {
+
+  }
+
+  function editJob() {
+
+  }
+
+  function deleteJob() {
+
+  }
+
   return (
     <>
       <p>Jobs</p>
