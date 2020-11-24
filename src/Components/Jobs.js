@@ -3,6 +3,7 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
+import Status from './StatusSelector'
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -36,8 +37,9 @@ function Jobs(props) {
   const [modalStyle] = useState(getModalStyle)
   const [open, setOpen] = useState(false)
   const [editOpen, setEditOpen] = useState(false)
+  const [statusState, setStatusState] = useState('')
   const [state, setState] = useState({
-    status: '',
+    id: null,
     name: '',
     link: '',
     notes: '',
@@ -62,7 +64,7 @@ function Jobs(props) {
   function saveJob() {
     axios.post('/api/user/jobs', {
       date: props.date,
-      job_status: state.status,
+      job_status: statusState,
       job_name: state.name,
       job_company: state.company,
       job_link: state.link,
@@ -71,22 +73,37 @@ function Jobs(props) {
       .then(() => getJobs())
   }
 
-  function editJob(id) {
-    console.log(id)
+  function editJob(jobId) {
+    jobs.map((e) => {
+      if (e.id === jobId) {
+        setStatusState(e.job_status)
+        setState({
+          id: jobId,
+          name: e.job_name,
+          link: e.job_link,
+          notes: e.job_notes,
+          company: e.job_company,
+        })
+
+      }
+      return (<></>)
+    })
     setEditOpen(true)
     setOpen(true)
   }
 
-  function saveEdit(id) {
-    axios.put(`/api/users/jobs/${id}`, {
-      date: props.date,
-      job_status: state.status,
+  function saveEdit() {
+    axios.put(`/api/users/jobs/${state.id}`, {
+      job_status: statusState,
       job_name: state.name,
       job_company: state.company,
       job_link: state.link,
       job_notes: state.notes
     })
-      .then(() => getJobs())
+      .then(() => {
+        getJobs()
+        handleClose()
+      })
 
   }
 
@@ -97,13 +114,22 @@ function Jobs(props) {
 
   }
 
-  const handleOpen = () => {
+  function handleOpen() {
     setOpen(true);
   };
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+  function handleClose() {
+    setEditOpen(false)
+    setOpen(false)
+    setStatusState('')
+    setState({
+      id: null,
+      name: '',
+      link: '',
+      notes: '',
+      company: ''
+    })
+  }
 
   function handleInput(e) {
     setState((prevState) => {
@@ -114,9 +140,9 @@ function Jobs(props) {
     /*Need to have a drop down for status*/
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">Edit Job</h2>
-      <p id="simple-modal-description">
-        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-      </p>
+      <Status statusState={statusState}
+        setStatusState={setStatusState}
+      />
       <input
         value={state.name}
         type='name'
@@ -137,20 +163,34 @@ function Jobs(props) {
         type='notes'
         name='notes'
         onChange={(e) => handleInput(e)} />
-      <input />
+      <button onClick={() => saveEdit()}>Save Changes</button>
     </div>
   )
   const body = (
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">Text in a modal</h2>
       <p id="simple-modal-description">
-        Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+        Fill out the fields below to save a new Job.
       </p>
+      <Status statusState={statusState}
+        setStatusState={setStatusState}
+      />
       <input
         type='name'
         name='name'
         onChange={(e) => handleInput(e)} />
-      <input />
+      <input
+        type='company'
+        name='company'
+        onChange={(e) => handleInput(e)} />
+      <input
+        type='link'
+        name='link'
+        onChange={(e) => handleInput(e)} />
+      <input
+        type='notes'
+        name='notes'
+        onChange={(e) => handleInput(e)} />
     </div>
   );
 
@@ -162,6 +202,7 @@ function Jobs(props) {
         <button href={e.job_link}>Link</button>
         <p>{e.job_notes}</p>
         <button onClick={() => editJob(e.id)}>Edit Job </button>
+        <button onClick={() => deleteJob(e.id)}> X Delete Job</button>
       </div>
     )
   })
