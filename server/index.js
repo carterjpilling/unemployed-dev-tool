@@ -39,6 +39,7 @@ app.post('/api/user/jobs', jobCtrl.saveJobs)
 app.get('/api/users/jobs/:date', jobCtrl.getJobs)
 app.put('/api/users/jobs/:id', jobCtrl.editJob)
 app.delete('/api/users/jobs/:id', jobCtrl.deleteJob)
+app.get('/api/users/jobs', jobCtrl.getAllJobs)
 
 //Goal Controller
 app.post('/api/user/goals/daily', goalCtrl.postDailyGoals)

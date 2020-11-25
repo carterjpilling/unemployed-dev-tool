@@ -43,9 +43,18 @@ module.exports = {
   getAllJobs: async (req, res) => {
     const db = req.app.get('db')
     const { id } = req.session.user
-
     const jobs = await db.get_all_jobs([id])
-    res.status(200).send(jobs)
+    jobs.splice(0, 0, { id: 'fake', date: 'fake' })
+
+    const sortedJobs = jobs.reduce((groups, job) => {
+      const date = job.date
+      if (!groups[date]) {
+        groups[date] = []
+      }
+      groups[date].push(job)
+      return groups
+    })
+    res.status(200).send(sortedJobs)
   }
 
 }
