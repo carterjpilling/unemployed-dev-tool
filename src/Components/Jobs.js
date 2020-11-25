@@ -43,6 +43,7 @@ function Jobs(props) {
     name: '',
     link: '',
     notes: '',
+    description: '',
     company: ''
   })
   useEffect(() => {
@@ -68,9 +69,13 @@ function Jobs(props) {
       job_name: state.name,
       job_company: state.company,
       job_link: state.link,
+      job_description: state.description,
       job_notes: state.notes
     })
-      .then(() => getJobs())
+      .then(() => {
+        getJobs()
+        handleClose()
+      })
   }
 
   function editJob(jobId) {
@@ -82,6 +87,7 @@ function Jobs(props) {
           name: e.job_name,
           link: e.job_link,
           notes: e.job_notes,
+          description: e.job_description,
           company: e.job_company,
         })
 
@@ -98,6 +104,7 @@ function Jobs(props) {
       job_name: state.name,
       job_company: state.company,
       job_link: state.link,
+      job_description: state.description,
       job_notes: state.notes
     })
       .then(() => {
@@ -127,6 +134,7 @@ function Jobs(props) {
       name: '',
       link: '',
       notes: '',
+      description: '',
       company: ''
     })
   }
@@ -137,7 +145,6 @@ function Jobs(props) {
     })
   }
   const editBody = (
-    /*Need to have a drop down for status*/
     <div style={modalStyle} className={classes.paper}>
       <h2 id="simple-modal-title">Edit Job</h2>
       <Status statusState={statusState}
@@ -163,6 +170,11 @@ function Jobs(props) {
         type='notes'
         name='notes'
         onChange={(e) => handleInput(e)} />
+      <input
+        value={state.description}
+        type='description'
+        name='description'
+        onChange={(e) => handleInput(e)} />
       <button onClick={() => saveEdit()}>Save Changes</button>
     </div>
   )
@@ -175,22 +187,42 @@ function Jobs(props) {
       <Status statusState={statusState}
         setStatusState={setStatusState}
       />
-      <input
-        type='name'
-        name='name'
-        onChange={(e) => handleInput(e)} />
-      <input
-        type='company'
-        name='company'
-        onChange={(e) => handleInput(e)} />
-      <input
-        type='link'
-        name='link'
-        onChange={(e) => handleInput(e)} />
-      <input
-        type='notes'
-        name='notes'
-        onChange={(e) => handleInput(e)} />
+      <div>
+        <p>Job Name</p>
+        <input
+          type='name'
+          name='name'
+          onChange={(e) => handleInput(e)} />
+      </div>
+      <div>
+        <p>Company Name</p>
+        <input
+          type='company'
+          name='company'
+          onChange={(e) => handleInput(e)} />
+      </div>
+      <div>
+        <p>Job Link</p>
+        <input
+          type='link'
+          name='link'
+          onChange={(e) => handleInput(e)} />
+      </div>
+      <div>
+        <p>Notes</p>
+        <input
+          type='notes'
+          name='notes'
+          onChange={(e) => handleInput(e)} />
+      </div>
+      <div>
+        <p>Description</p>
+        <input
+          type='description'
+          name='description'
+          onChange={(e) => handleInput(e)} />
+      </div>
+      <button onClick={() => saveJob()}> Save Job</button>
     </div>
   );
 
@@ -199,8 +231,6 @@ function Jobs(props) {
       <div key={i}>
         <p>{e.job_name}</p>
         <p>{e.job_company}</p>
-        <button href={e.job_link}>Link</button>
-        <p>{e.job_notes}</p>
         <button onClick={() => editJob(e.id)}>Edit Job </button>
         <button onClick={() => deleteJob(e.id)}> X Delete Job</button>
       </div>
