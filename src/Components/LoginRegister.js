@@ -64,7 +64,6 @@ function LoginRegister(props) {
         <button onClick={() => handleLogin()}>Login</button>
         <button onClick={() => handleRegister()}>Register</button>
       </div>
-      <p>LoginRegister</p>
     </div>
   )
 }
