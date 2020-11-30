@@ -9,7 +9,7 @@ import CardActions from '@material-ui/core/CardActions'
 export default function Goals() {
   return (
     <div>
-      <Card style={{}}>
+      <Card style={{}} direction="column" justifyContent="center" bgcolor='blue'>
         <CardContent >
           <TextField style={{ padding: 24 }}
             placeholder='Notes' />
@@ -17,7 +17,7 @@ export default function Goals() {
             Notes Section
           </Typography>
         </CardContent>
-        <CardActions>
+        <CardActions direction="column" display='flex' justifyContent="center">
 
           <Button size='small' color='inherit'>
             Save Notes</Button>

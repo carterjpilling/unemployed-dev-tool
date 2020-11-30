@@ -42,7 +42,7 @@ export default function Cal() {
       // formatLongDate={dateState}
       />
       <div className={classes.root}>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} direction="column" alignItems="center">
           <Notes date={dateValue} />
           <Clock date={dateValue} />
           <Goals date={dateValue} />
