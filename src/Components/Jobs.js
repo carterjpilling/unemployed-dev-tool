@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { connect } from 'react-redux'
-import { makeStyles } from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
+import { makeStyles } from '@material-ui/core/styles'
+import Modal from '@material-ui/core/Modal'
 import Status from './StatusSelector'
+import Card from '@material-ui/core/Card'
+import CardHeader from '@material-ui/core/CardHeader'
+import IconButton from '@material-ui/core/IconButton'
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import { CardActionArea } from '@material-ui/core'
+
 
 function rand() {
   return Math.round(Math.random() * 20) - 10;
@@ -21,6 +27,10 @@ function getModalStyle() {
 }
 
 const useStyles = makeStyles((theme) => ({
+  root: {
+    maxWidth: 345,
+    margin: 10,
+  },
   paper: {
     position: 'absolute',
     width: 400,
@@ -228,17 +238,27 @@ function Jobs(props) {
 
   const mappedJobs = jobs.map((e, i) => {
     return (
-      <div key={i}>
-        <p>{e.job_name}</p>
-        <p>{e.job_company}</p>
-        <button onClick={() => editJob(e.id)}>Edit Job </button>
-        <button onClick={() => deleteJob(e.id)}> X Delete Job</button>
-      </div>
+
+      <Card className={classes.root} key={i} cursor={PointerEvent} onClick={() => editJob(e.id)}>
+        <CardActionArea>
+
+          <CardHeader
+            action={
+              <IconButton aria-label="edit">
+                <DeleteForeverIcon onClick={() => deleteJob(e.id)} />
+              </IconButton>
+            }
+            title={e.job_name}
+            subheader={e.job_company}
+          />
+        </CardActionArea>
+      </Card>
     )
   })
 
   return (
     <div>
+
       {mappedJobs}
       <button type="button" onClick={handleOpen}>
         + New Job
