@@ -1,20 +1,32 @@
 import React, { useEffect, useState } from 'react'
-import Dropdown from 'react-bootstrap/Dropdown'
 import Time from './Time'
 import axios from 'axios'
+import MenuItem from '@material-ui/core/MenuItem'
+import FormControl from '@material-ui/core/FormControl'
+import Select from '@material-ui/core/Select'
+import { makeStyles } from '@material-ui/core/styles'
+import InputLabel from '@material-ui/core/InputLabel'
+
+const useStyles = makeStyles((theme) => ({
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
+  selectEmpty: {
+    marginTop: theme.spacing(2),
+  },
+}));
 
 export default function Clock(props) {
-  const [clockOption, setClockOption] = useState({
-    id: null,
-    name: 'Time Clock Options'
-  })
+  const classes = useStyles();
+  const [clockOption, setClockOption] = useState(null)
 
   useEffect(() => {
   }, [props.date])
 
   function clockin() {
     axios.post('/api/user/clockin', {
-      option_id: clockOption.id,
+      option_id: clockOption,
       date: props.date
     })
   }
@@ -25,26 +37,29 @@ export default function Clock(props) {
     })
   }
 
+  function handleChange(e) {
+    setClockOption(e.target.value)
+  }
+
   return (
     <div>
       <button onClick={() => clockin()}>Clock In</button>
       <button onClick={() => clockout()}>Clock Out</button>
-      <Dropdown
-        drop='right'
-      >
-        <Dropdown.Toggle variant="success" id="dropdown-basic">
-          {clockOption.name}
-        </Dropdown.Toggle>
-
-        <Dropdown.Menu
+      <FormControl className={classes.formControl}>
+        <InputLabel id="demo-simple-select-label">Clock Option</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={clockOption}
+          onChange={handleChange}
         >
-          <Dropdown.Item onSelect={() => setClockOption({ id: 2, name: 'Job Hunting' })}>Job Hunting</Dropdown.Item>
-          <Dropdown.Item onSelect={() => setClockOption({ id: 1, name: 'Coding' })}>Coding</Dropdown.Item>
-          <Dropdown.Item onSelect={() => setClockOption({ id: 3, name: 'Researching/Learning' })}>Researching/Learning</Dropdown.Item>
-          <Dropdown.Item onSelect={() => setClockOption({ id: 5, name: 'WhiteBoarding / Interview Practice' })}>WhiteBoarding / Interview Practice</Dropdown.Item>
-          <Dropdown.Item onSelect={() => setClockOption({ id: 4, name: 'Other' })}>Other</Dropdown.Item>
-        </Dropdown.Menu>
-      </Dropdown>
+          <MenuItem value={1}>Job Hunting</MenuItem>
+          <MenuItem value={2}>Coding</MenuItem>
+          <MenuItem value={3}>Researching/Learning</MenuItem>
+          <MenuItem value={5}>WhiteBoarding / Interview Practice</MenuItem>
+          <MenuItem value={4}>Other</MenuItem>
+        </Select>
+      </FormControl>
       <p>Clock</p>
       <Time date={props.date} />
     </div>
