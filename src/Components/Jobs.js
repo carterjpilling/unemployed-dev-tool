@@ -8,6 +8,8 @@ import Card from '@material-ui/core/Card'
 import CardHeader from '@material-ui/core/CardHeader'
 import IconButton from '@material-ui/core/IconButton'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import CardActions from '@material-ui/core/CardActions'
+import Button from '@material-ui/core/Button'
 import { CardActionArea } from '@material-ui/core'
 
 
@@ -259,10 +261,14 @@ function Jobs(props) {
   return (
     <div>
 
-      {mappedJobs}
-      <button type="button" onClick={handleOpen}>
-        + New Job
-      </button>
+      <Card style={{ padding: 12 }}>
+        {mappedJobs}
+        <CardActions>
+          <Button size='small' color='primary' onClick={handleOpen}>
+            + Add New Job
+          </Button>
+        </CardActions>
+      </Card>
       {editOpen === true ?
         <Modal
           open={open}
