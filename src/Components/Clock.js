@@ -6,6 +6,7 @@ import FormControl from '@material-ui/core/FormControl'
 import Select from '@material-ui/core/Select'
 import { makeStyles } from '@material-ui/core/styles'
 import InputLabel from '@material-ui/core/InputLabel'
+import Card from '@material-ui/core/Card'
 
 const useStyles = makeStyles((theme) => ({
   formControl: {
@@ -43,23 +44,25 @@ export default function Clock(props) {
 
   return (
     <div>
-      <button onClick={() => clockin()}>Clock In</button>
-      <button onClick={() => clockout()}>Clock Out</button>
-      <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Clock Option</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={clockOption}
-          onChange={handleChange}
-        >
-          <MenuItem value={1}>Job Hunting</MenuItem>
-          <MenuItem value={2}>Coding</MenuItem>
-          <MenuItem value={3}>Researching/Learning</MenuItem>
-          <MenuItem value={5}>WhiteBoarding / Interview Practice</MenuItem>
-          <MenuItem value={4}>Other</MenuItem>
-        </Select>
-      </FormControl>
+      <Card>
+        <button onClick={() => clockin()}>Clock In</button>
+        <button onClick={() => clockout()}>Clock Out</button>
+        <FormControl className={classes.formControl}>
+          <InputLabel id="demo-simple-select-label">Clock Option</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={clockOption}
+            onChange={handleChange}
+          >
+            <MenuItem value={1}>Job Hunting</MenuItem>
+            <MenuItem value={2}>Coding</MenuItem>
+            <MenuItem value={3}>Researching/Learning</MenuItem>
+            <MenuItem value={5}>WhiteBoarding / Interview Practice</MenuItem>
+            <MenuItem value={4}>Other</MenuItem>
+          </Select>
+        </FormControl>
+      </Card>
       <p>Clock</p>
       <Time date={props.date} />
     </div>
