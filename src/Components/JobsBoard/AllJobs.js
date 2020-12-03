@@ -11,22 +11,15 @@ function AllJobs() {
     axios.get('/api/users/jobs').then((res) => {
       setAllJobs(res.data)
     })
+  }, [])
+
+  const mappedJobs = allJobs.map((e, i) => {
+    return (
+      <Card key={i}>
+
+      </Card>
+    )
   })
-
-  // for (let prop in obj){
-  //   if(prop.length===11){
-  //     obj[prop].map((e)=>{
-  //       console.log(e)
-  //     })
-  //   }
-  // }
-  // const mappedJobs = allJobs.map((e, i) => {
-  //   return (
-  //     <Card key={i}>
-
-  //     </Card>
-  //   )
-  // })
 
   return (
     <>

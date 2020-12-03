@@ -46,7 +46,7 @@ module.exports = {
     const jobs = await db.get_all_jobs([id])
     jobs.splice(0, 0, { id: 'fake', date: 'fake' })
 
-    let array = []
+    let jobList = []
     const sortedJobs = jobs.reduce((groups, job) => {
       const date = job.date
       if (!groups[date]) {
@@ -55,8 +55,15 @@ module.exports = {
       groups[date].push(job)
       return groups
     })
-    array.push(sortedJobs)
-    res.status(200).send(array)
+    for (let prop in sortedJobs) {
+      if (prop.length === 11) {
+        sortedJobs[prop].map((e) => {
+          jobList.push(e)
+        })
+      }
+    }
+
+    res.status(200).send(jobList)
   }
 
 }
