@@ -60,7 +60,10 @@ function Jobs(props) {
   })
   useEffect(() => {
     if (props.isLoggedIn) {
-      getJobs()
+      setJobs([])
+      axios.get(`/api/users/jobs/${props.date}`).then((res) => {
+        setJobs(res.data)
+      })
     }
   }, [props.date, props.isLoggedIn])
 
@@ -241,7 +244,7 @@ function Jobs(props) {
   const mappedJobs = jobs.map((e, i) => {
     return (
 
-      <Card className={classes.root} key={i} cursor={PointerEvent} onClick={() => editJob(e.id)}>
+      <Card className={classes.root} key={i} onClick={() => editJob(e.id)}>
         <CardActionArea>
 
           <CardHeader
