@@ -36,9 +36,7 @@ function EditJobModal(props) {
   const classes = useStyles();
   const [modalStyle] = useState(getModalStyle)
 
-  function handleClose() {
-    props.setOpen(false)
-  }
+
   const body = (
     <div style={modalStyle} className={classes.paper} >
       <h2 id="simple-modal-title">Edit Job</h2>
@@ -49,6 +47,30 @@ function EditJobModal(props) {
         name='name'
         onChange={(e) => handleInput(e)}
       />
+      <input
+        value={props.editState.company}
+        type='company'
+        name='company'
+        onChange={(e) => handleInput(e)}
+      />
+      <input
+        value={props.editState.link}
+        type='link'
+        name='link'
+        onChange={(e) => handleInput(e)}
+      />
+      <input
+        value={props.editState.notes}
+        type='notes'
+        name='notes'
+        onChange={(e) => handleInput(e)}
+      />
+      <input
+        value={props.editState.description}
+        type='description'
+        name='description'
+        onChange={(e) => handleInput(e)}
+      />
     </div>
   )
 
@@ -56,7 +78,7 @@ function EditJobModal(props) {
     <div>
       <Modal
         open={props.open}
-        onClose={handleClose}
+        onClose={props.handleClose}
         aria-labelledby="simple-modal-title"
         aria-describedby="simple-modal-description"
       >

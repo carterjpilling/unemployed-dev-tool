@@ -50,6 +50,18 @@ function AllJobs() {
 
   }
 
+  function handleClose() {
+    setEditOpen(false)
+    setEditState({
+      id: null,
+      name: null,
+      link: null,
+      notes: null,
+      description: null,
+      company: null
+    })
+  }
+
 
   const mappedJobs = allJobs.map((e, i) => {
     return (
@@ -74,7 +86,8 @@ function AllJobs() {
           open={editOpen}
           setOpen={setEditOpen}
           editJob={editJob}
-          editState={editState} />}
+          editState={editState}
+          handleClose={handleClose} />}
     </div>
   )
 }
