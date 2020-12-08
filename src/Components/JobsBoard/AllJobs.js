@@ -10,21 +10,22 @@ const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
     margin: 10,
-  },
-  paper: {
-    position: 'absolute',
-    width: 400,
-    backgroundColor: theme.palette.background.paper,
-    border: '2px solid #000',
-    boxShadow: theme.shadows[5],
-    padding: theme.spacing(2, 4, 3),
-  },
+  }
 }));
 
 function AllJobs() {
   const classes = useStyles();
   const [allJobs, setAllJobs] = useState([])
   const [editOpen, setEditOpen] = useState(false)
+  const [status, setStatus] = useState('Job Status')
+  const [editState, setEditState] = useState({
+    id: null,
+    name: null,
+    link: null,
+    notes: null,
+    description: null,
+    company: null
+  })
 
   useEffect(() => {
     axios.get('/api/users/jobs').then((res) => {
@@ -32,9 +33,23 @@ function AllJobs() {
     })
   }, [])
 
-  function editJob() {
+  function editJob(jobId) {
+    allJobs.map((e) => {
+      setStatus(e.job_status)
+      setEditState({
+        id: jobId,
+        name: e.job_name,
+        link: e.job_link,
+        notes: e.job_notes,
+        description: e.job_description,
+        company: e.job_company,
+      })
+      return (<></>)
+    })
     setEditOpen(true)
+
   }
+
 
   const mappedJobs = allJobs.map((e, i) => {
     return (
@@ -54,7 +69,12 @@ function AllJobs() {
   return (
     <div>
       {mappedJobs}
-      {editOpen === true && <EditModal open={editOpen} setOpen={setEditOpen} />}
+      {editOpen === true &&
+        <EditModal
+          open={editOpen}
+          setOpen={setEditOpen}
+          editJob={editJob}
+          editState={editState} />}
     </div>
   )
 }
