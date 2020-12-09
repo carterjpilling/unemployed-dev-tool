@@ -13,11 +13,12 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-function AllJobs() {
+function AllJobs(props) {
   const classes = useStyles();
   const [allJobs, setAllJobs] = useState([])
   const [editOpen, setEditOpen] = useState(false)
   const [status, setStatus] = useState('Job Status')
+  const [newJob, setNewJob] = useState(false)
   const [editState, setEditState] = useState({
     id: null,
     name: null,
@@ -33,25 +34,67 @@ function AllJobs() {
     })
   }, [])
 
+  function getJobs() {
+    axios.get('/api/users/jobs').then((res) => {
+      setAllJobs(res.data)
+    })
+  }
+
   function editJob(jobId) {
     allJobs.map((e) => {
-      setStatus(e.job_status)
-      setEditState({
-        id: jobId,
-        name: e.job_name,
-        link: e.job_link,
-        notes: e.job_notes,
-        description: e.job_description,
-        company: e.job_company,
-      })
+      if (e.id === jobId) {
+        setStatus(e.job_status)
+        setEditState({
+          id: jobId,
+          name: e.job_name,
+          link: e.job_link,
+          notes: e.job_notes,
+          description: e.job_description,
+          company: e.job_company,
+        })
+      }
       return (<></>)
     })
+    setNewJob(false)
     setEditOpen(true)
 
   }
 
+  function saveEdit() {
+    axios.put(`/api/users/jobs/${editState.id}`, {
+      job_status: status,
+      job_name: editState.name,
+      job_company: editState.company,
+      job_link: editState.link,
+      job_description: editState.description,
+      job_notes: editState.notes
+    })
+      .then(() => {
+        getJobs()
+        handleClose()
+      })
+  }
+
+  function saveJob() {
+    axios.post('/api/user/jobs', {
+      date: props.date,
+      job_status: status,
+      job_name: editState.name,
+      job_company: editState.company,
+      job_link: editState.link,
+      job_description: editState.description,
+      job_notes: editState.notes
+    })
+      .then(() => {
+        getJobs()
+        setEditOpen(false)
+        setNewJob(false)
+      })
+  }
+
   function handleClose() {
     setEditOpen(false)
+    setNewJob(false)
     setEditState({
       id: null,
       name: null,
@@ -60,6 +103,12 @@ function AllJobs() {
       description: null,
       company: null
     })
+  }
+
+  function openNewJob() {
+    setStatus(null)
+    setEditOpen(true)
+    setNewJob(true)
   }
 
 
@@ -80,6 +129,7 @@ function AllJobs() {
 
   return (
     <div>
+      <button onClick={() => openNewJob()}>New Job</button>
       {mappedJobs}
       {editOpen === true &&
         <EditModal
@@ -87,7 +137,13 @@ function AllJobs() {
           setOpen={setEditOpen}
           editJob={editJob}
           editState={editState}
-          handleClose={handleClose} />}
+          handleClose={handleClose}
+          saveEdit={saveEdit}
+          setEditState={setEditState}
+          saveJob={saveJob}
+          newJob={newJob}
+          status={status}
+          setStatus={setStatus} />}
     </div>
   )
 }

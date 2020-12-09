@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import Modal from '@material-ui/core/Modal'
 import { makeStyles } from '@material-ui/core/styles'
+import Status from '../StatusSelector'
 
 function getModalStyle() {
   const top = 50;
@@ -28,19 +29,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function handleInput(e) {
-
-}
 
 function EditJobModal(props) {
   const classes = useStyles();
   const [modalStyle] = useState(getModalStyle)
 
+  function handleInput(e) {
+    props.setEditState((prevState) => {
+      return { ...prevState, [e.target.name]: e.target.value }
+    })
+  }
 
   const body = (
     <div style={modalStyle} className={classes.paper} >
       <h2 id="simple-modal-title">Edit Job</h2>
-
+      <Status statusState={props.status}
+        setStatusState={props.setStatus} />
       <input
         value={props.editState.name}
         type='name'
@@ -71,19 +75,64 @@ function EditJobModal(props) {
         name='description'
         onChange={(e) => handleInput(e)}
       />
+      <button onClick={() => props.saveEdit()}>Save Job</button>
+    </div>
+  )
+
+  const newBody = (
+    <div style={modalStyle} className={classes.paper} >
+      <h2 id="simple-modal-title">Add New Job</h2>
+      <Status statusState={props.status}
+        setStatusState={props.setStatus} />
+      < input
+        type='name'
+        name='name'
+        onChange={(e) => handleInput(e)}
+      />
+      <input
+        type='company'
+        name='company'
+        onChange={(e) => handleInput(e)}
+      />
+      <input
+        type='link'
+        name='link'
+        onChange={(e) => handleInput(e)}
+      />
+      <input
+        type='notes'
+        name='notes'
+        onChange={(e) => handleInput(e)}
+      />
+      <input
+        type='description'
+        name='description'
+        onChange={(e) => handleInput(e)}
+      />
+      <button onClick={() => props.saveJob()}>Save Job</button>
     </div>
   )
 
   return (
     <div>
-      <Modal
-        open={props.open}
-        onClose={props.handleClose}
-        aria-labelledby="simple-modal-title"
-        aria-describedby="simple-modal-description"
-      >
-        {body}
-      </Modal>
+      {props.newJob === true ?
+        <Modal
+          open={props.open}
+          onClose={props.handleClose}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+        >
+          {newBody}
+        </Modal> :
+        <Modal
+          open={props.open}
+          onClose={props.handleClose}
+          aria-labelledby="simple-modal-title"
+          aria-describedby="simple-modal-description"
+        >
+          {body}
+        </Modal>
+      }
     </div>
   )
 }
