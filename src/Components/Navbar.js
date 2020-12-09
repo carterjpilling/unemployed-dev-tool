@@ -20,9 +20,8 @@ function Navbar(props) {
     <div>
       <AppBar position='static'>
         <ToolBar>
-          <Typography variant='title' color='blue'>
-
-            <p>Welcome Back {props.user.name}</p>
+          <Typography >
+            Welcome Back {props.user.name}
           </Typography>
           <Login />
         </ToolBar>

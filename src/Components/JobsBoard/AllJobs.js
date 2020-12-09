@@ -5,6 +5,7 @@ import CardHeader from '@material-ui/core/CardHeader'
 import EditModal from './EditJobModal'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import { makeStyles } from '@material-ui/core/styles'
+import Filter from './Filter'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,6 +17,12 @@ const useStyles = makeStyles((theme) => ({
 function AllJobs(props) {
   const classes = useStyles();
   const [allJobs, setAllJobs] = useState([])
+  const [filterAllJobs, setFilterAllJobs] = useState(true)
+  const [filterDay, setFilterDay] = useState(false)
+  // const [filter, setFilter] = useState({
+  //   allJobs: true,
+  //   day: false
+  // })
   const [editOpen, setEditOpen] = useState(false)
   const [status, setStatus] = useState('Job Status')
   const [newJob, setNewJob] = useState(false)
@@ -129,6 +136,12 @@ function AllJobs(props) {
 
   return (
     <div>
+      <Filter
+        filterJobs={filterAllJobs}
+        setFilterAllJobs={setFilterAllJobs}
+        filterDay={filterDay}
+        setFilterDay={setFilterDay}
+      />
       <button onClick={() => openNewJob()}>New Job</button>
       {mappedJobs}
       {editOpen === true &&
