@@ -189,5 +189,12 @@ module.exports = {
     const db = req.app.get('db')
     const options = await db.get_clock_options([])
     res.status(200).send(options)
+  },
+  punchin: async (req, res) => {
+    const db = req.app.get('db')
+
+    const [punchin] = await db.get_punch_intime([])
+    console.log(punchin.start)
+    res.status(200).send(punchin.start)
   }
 }

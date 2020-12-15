@@ -28,6 +28,7 @@ app.post('/api/auth/logout', authCtrl.logoutUser)
 app.get('/api/auth/user', authCtrl.getUser)
 
 //Clock Controller
+app.post('/api/user/time', timeCtrl.punchin)
 app.post('/api/user/clockin', timeCtrl.clockIn)
 app.put('/api/user/clockout', timeCtrl.clockOut)
 app.get('/api/user/clock/:date', timeCtrl.getTodaysTimes)
